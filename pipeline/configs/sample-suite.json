@@ -131,6 +131,14 @@
       "metric": "metric:performance.errorRatePct",
       "comparator": "<",
       "threshold": 0.5
+    },
+    {
+      "id": "gate-ttft-fast",
+      "label": "互動延遲 P95 TTFT < 250ms (warning)",
+      "metric": "metric:performance.p95TtftMs",
+      "comparator": "<",
+      "threshold": 250,
+      "severity": "warning"
     }
   ]
 }

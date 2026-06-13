@@ -20,6 +20,8 @@ results/**/*.json
 results/**/*.parquet
 reports/**/*.md
 reports/**/*.html
+reports/**/*.svg
+reports/**/*.csv
 !reports/.gitkeep
 !results/.gitkeep
 !reports/leaderboard.template.md

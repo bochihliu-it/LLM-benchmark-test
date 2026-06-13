@@ -6,6 +6,7 @@ import type {
 } from '../../src/domain/types.ts';
 import { mean } from '../../src/domain/scoring.ts';
 import { tryParseJson } from '../../src/shared/parse.ts';
+import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type DimensionRunner, type RunContext } from './runner.ts';
 
 /**
@@ -19,9 +20,8 @@ export const toolUseRunner: DimensionRunner = {
   method: 'objective',
   async run(dataset: Dataset, ctx: RunContext): Promise<DimensionResult> {
     const cases = dataset.cases as ToolUseCase[];
-    const results: CaseResult[] = [];
 
-    for (const c of cases) {
+    const results: CaseResult[] = await mapWithConcurrency(cases, ctx.concurrency, async (c) => {
       const res = await ctx.client.chat({
         messages: [
           { role: 'system', content: 'Call the provided tool with correct arguments.' },
@@ -39,7 +39,7 @@ export const toolUseRunner: DimensionRunner = {
       });
 
       const { score, detail } = scoreToolCall(c, res.toolCall?.arguments, res.toolCall?.name);
-      results.push({
+      return {
         caseId: c.id,
         method: 'objective',
         score,
@@ -48,8 +48,8 @@ export const toolUseRunner: DimensionRunner = {
         latency: res.latency,
         errored: res.errored ?? false,
         detail,
-      });
-    }
+      };
+    });
 
     const avg = mean(results.map((r) => r.score));
     const fullPass = mean(results.map((r) => (r.passed ? 1 : 0)));

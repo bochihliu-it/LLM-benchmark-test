@@ -42,6 +42,7 @@ export async function runModel(
     judge,
     logger,
     config,
+    concurrency: config.concurrency,
     groupFor: (dim) => groupFor(dim, config),
     sampleForReview: makeSampler(`${config.seed}:${model.id}`, config.humanReviewSampleRate),
   };

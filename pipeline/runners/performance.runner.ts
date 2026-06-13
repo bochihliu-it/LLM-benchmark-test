@@ -20,6 +20,9 @@ export const performanceRunner: DimensionRunner = {
     let totalGenMs = 0;
     let errors = 0;
 
+    // Intentionally sequential (ignores ctx.concurrency): this in-process pass
+    // measures clean per-request latency. Concurrency/throughput under load is
+    // the job of the k6 / vllm-bench scripts under perf/.
     for (const c of cases) {
       const res = await ctx.client.chat({
         messages: [{ role: 'user', content: c.prompt }],

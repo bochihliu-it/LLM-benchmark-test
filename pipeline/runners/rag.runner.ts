@@ -1,5 +1,6 @@
 import type { CaseResult, Dataset, DimensionResult, JudgeCase } from '../../src/domain/types.ts';
 import { mean } from '../../src/domain/scoring.ts';
+import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type DimensionRunner, type RunContext } from './runner.ts';
 
 /**
@@ -12,9 +13,8 @@ export const ragRunner: DimensionRunner = {
   method: 'judge',
   async run(dataset: Dataset, ctx: RunContext): Promise<DimensionResult> {
     const cases = dataset.cases as JudgeCase[];
-    const results: CaseResult[] = [];
 
-    for (const c of cases) {
+    const results: CaseResult[] = await mapWithConcurrency(cases, ctx.concurrency, async (c) => {
       const maxPerCriterion = c.maxPerCriterion ?? 5;
       const userContent = c.context
         ? `Context:\n${c.context}\n\nQuestion: ${c.prompt}\n\nAnswer using only the context.`
@@ -45,7 +45,7 @@ export const ragRunner: DimensionRunner = {
       });
 
       const passed = verdict.score >= 0.6;
-      results.push({
+      return {
         caseId: c.id,
         method: 'judge',
         score: verdict.score,
@@ -54,8 +54,8 @@ export const ragRunner: DimensionRunner = {
         latency: res.latency,
         errored: res.errored ?? false,
         detail: `judge=${(verdict.score * 100).toFixed(0)}% (${verdict.rationale})`,
-      });
-    }
+      };
+    });
 
     const avg = mean(results.map((r) => r.score));
     return buildResult({

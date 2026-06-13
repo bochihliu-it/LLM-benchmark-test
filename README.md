@@ -89,13 +89,36 @@ pnpm test
 ```bash
 pnpm benchmark:sample        # 單一模型，8 維度一起跑，產出 result + report
 pnpm benchmark:suite         # 5 個模型，產出可比較的排行榜
-pnpm report                  # 從 results/ 重新生成 reports/leaderboard.md
+pnpm benchmark:validate      # 靜態檢查設定檔與資料集（不呼叫模型）
+pnpm benchmark:list          # 列出可用維度、評測方法與資料集
+pnpm report                  # 從 results/ 重新生成 reports/leaderboard.md + .csv
+```
+
+CLI 子指令：
+
+```bash
+benchmark run      --config <path> [--reports <dir>] [--log <level>]
+benchmark validate --config <path>      # pre-flight：資料集存在、kind 正確、gate 參照合法
+benchmark list                          # 維度 / 方法 / 資料集一覽
+benchmark report   [--results <dir>] [--out <dir>]
 ```
 
 執行後：
 - `results/*.json` — 每次 run 的完整、版本化結果（真實來源）。
-- `reports/report__*.md` — 單一模型報告（維度分數、群組加權、門檻、人工複核清單）。
-- `reports/leaderboard.md` — 跨模型排行榜（含 `效益/GPU` 與門檻通過狀態）。
+- `reports/report__*.md` — 單一模型報告（決策建議、維度雷達圖、維度分數、群組加權、門檻、人工複核清單）。
+- `reports/radar__*.svg` — 每個模型的維度雷達圖（GitHub 可直接渲染）。
+- `reports/leaderboard.md` — 跨模型排行榜（含決策矩陣、`效益/GPU`、門檻狀態）。
+- `reports/leaderboard.csv` — 排行榜 CSV，供 BI 工具匯入。
+
+### 決策建議與品質門檻
+
+每個模型會得到一個治理建議：**🟢 上線 Go-live**（綜合分數 ≥ `goLiveThreshold` 且通過所有 blocking 門檻）、**🟡 觀察 Watch**（通過 blocking 門檻但分數偏低，或有 warning 門檻未過）、**🔴 淘汰 Reject**（任一 blocking 門檻未過）。門檻可設 `severity`：`blocking`（阻擋上線）或 `warning`（僅提示、不阻擋）。決策矩陣會列出每個模型的建議與理由。
+
+> **安全（safety）採雙重計分**：既計入加權總分（`reliability-safety` 群組 15%），也作為 blocking 門檻。治理上希望安全性差的模型「排名被扣分」且「直接被擋下」。
+
+### 並發（concurrency）
+
+設定檔的 `concurrency`（預設 4）控制每個維度同時在途的請求數，加速真實 LiteLLM 評測（對齊 DoD「< 1 個工作天」）。`performance` 維度刻意維持單執行緒以取得乾淨的延遲數據；真正的並發/吞吐壓測交給 `perf/` 的 k6 / vllm-bench。
 
 ### 對真實 LiteLLM 端點評測
 

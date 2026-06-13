@@ -30,7 +30,7 @@ export async function runBenchmark(
   const loader = new DatasetLoader(config.datasetsDir);
   const judge = createJudge(config, logger);
   const store = new ResultStore(config.resultsDir);
-  const reporter = new ReportWriter(opts.reportsDir);
+  const reporter = new ReportWriter(opts.reportsDir, config.goLiveThreshold);
 
   logger.info(
     `Starting "${config.name}" — ${config.models.length} model(s) × ${config.dimensions.length} dimension(s)`,

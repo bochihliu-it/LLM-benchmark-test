@@ -66,6 +66,7 @@ export function evaluateGates(
         threshold: gate.threshold,
         actual: Number.NaN,
         passed: true,
+        severity: gate.severity,
       });
       continue;
     }
@@ -76,8 +77,10 @@ export function evaluateGates(
       threshold: gate.threshold,
       actual: Math.round(actual * 100) / 100,
       passed: compare(actual, gate.comparator, gate.threshold),
+      severity: gate.severity,
     });
   }
-  const passed = results.every((r) => r.passed);
+  // Only blocking gates count against go-live; warning gates surface for review.
+  const passed = results.every((r) => r.passed || r.severity === 'warning');
   return { results, passed };
 }

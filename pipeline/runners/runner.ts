@@ -22,6 +22,8 @@ export interface RunContext {
   judge: Judge;
   logger: Logger;
   config: BenchmarkConfig;
+  /** Max in-flight requests a runner should use when scoring cases. */
+  concurrency: number;
   groupFor(dimension: DimensionId): DimensionGroup;
   /** Deterministic human-review draw for a case. */
   sampleForReview(seedKey: string): boolean;

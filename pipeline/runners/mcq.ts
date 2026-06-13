@@ -12,6 +12,7 @@ import type {
 } from '../../src/domain/types.ts';
 import { mean } from '../../src/domain/scoring.ts';
 import { extractChoiceLetter } from '../../src/shared/parse.ts';
+import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type RunContext } from './runner.ts';
 
 export async function evaluateMultipleChoice(
@@ -21,9 +22,8 @@ export async function evaluateMultipleChoice(
   instruction: string,
 ): Promise<DimensionResult> {
   const cases = dataset.cases as MultipleChoiceCase[];
-  const results: CaseResult[] = [];
 
-  for (const c of cases) {
+  const results: CaseResult[] = await mapWithConcurrency(cases, ctx.concurrency, async (c) => {
     const choiceKeys = Object.keys(c.choices);
     const rendered = choiceKeys.map((k) => `${k}. ${c.choices[k]}`).join('\n');
     const res = await ctx.client.chat({
@@ -37,7 +37,7 @@ export async function evaluateMultipleChoice(
     });
     const picked = extractChoiceLetter(res.content, choiceKeys);
     const passed = picked !== null && picked.toUpperCase() === c.answer.toUpperCase();
-    results.push({
+    return {
       caseId: c.id,
       method: 'objective',
       score: passed ? 1 : 0,
@@ -46,8 +46,8 @@ export async function evaluateMultipleChoice(
       latency: res.latency,
       errored: res.errored ?? false,
       detail: `picked=${picked ?? '∅'} expected=${c.answer}`,
-    });
-  }
+    };
+  });
 
   const accuracy = mean(results.map((r) => r.score));
   return buildResult({

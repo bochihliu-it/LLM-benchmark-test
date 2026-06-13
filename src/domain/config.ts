@@ -83,6 +83,11 @@ const gateSchema = z.object({
   metric: z.string(),
   comparator: z.enum(['>=', '<=', '<', '>']),
   threshold: z.number(),
+  /**
+   * blocking — a failure blocks go-live (counts against gatesPassed).
+   * warning  — a failure is surfaced for review but does not block.
+   */
+  severity: z.enum(['blocking', 'warning']).default('blocking'),
 });
 
 export type GateConfig = z.infer<typeof gateSchema>;
@@ -98,12 +103,16 @@ export const benchmarkConfigSchema = z.object({
   $schema: z.string().optional(),
   name: z.string().default('benchmark-run'),
   seed: z.string().default('ai-benchmark-2026'),
+  /** Max in-flight requests per dimension. Higher = faster real runs. */
+  concurrency: z.number().int().min(1).max(64).default(4),
   models: z.array(modelSchema).min(1),
   dimensions: z.array(dimensionIdSchema).min(1),
   judge: judgeSchema.default({}),
   litellm: litellmSchema.default({}),
   /** Fraction of cases per dimension drawn for human review, in [0, 1]. */
   humanReviewSampleRate: z.number().min(0).max(1).default(0.1),
+  /** Overall score (0-100) at/above which a gate-passing model is "go-live". */
+  goLiveThreshold: z.number().min(0).max(100).default(75),
   weights: z
     .object({
       capability: z.number().min(0),

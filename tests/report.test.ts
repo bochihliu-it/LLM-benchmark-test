@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { latestPerModel, renderLeaderboard } from '../src/application/report-writer.ts';
+import {
+  latestPerModel,
+  renderLeaderboard,
+  renderLeaderboardCsv,
+} from '../src/application/report-writer.ts';
 import type { BenchmarkResult } from '../src/domain/types.ts';
 
 function result(id: string, startedAt: string, overall: number): BenchmarkResult {
@@ -55,7 +59,30 @@ describe('renderLeaderboard', () => {
     const firstRow = md.indexOf('| 1 |');
     const secondRow = md.indexOf('| 2 |');
     expect(md.slice(firstRow, secondRow)).toContain('90');
-    // a appears once despite two runs
-    expect(md.match(/\| a \|/g)?.length).toBe(1);
+    // Two runs of "a" dedupe to one row per table (leaderboard + decision matrix).
+    expect(md.match(/\| a \|/g)?.length).toBe(2);
+  });
+
+  it('includes a decision matrix section', () => {
+    const md = renderLeaderboard([result('a', '2026-06-02T00:00:00Z', 90)], 75);
+    expect(md).toContain('決策矩陣 Decision matrix');
+    expect(md).toContain('🟢'); // go-live badge for a gate-passing 90
+  });
+});
+
+describe('renderLeaderboardCsv', () => {
+  it('emits a header and one row per deduped model', () => {
+    const csv = renderLeaderboardCsv(
+      [
+        result('a', '2026-06-01T00:00:00Z', 50),
+        result('a', '2026-06-02T00:00:00Z', 90),
+        result('b', '2026-06-01T00:00:00Z', 70),
+      ],
+      75,
+    );
+    const rows = csv.trim().split('\n');
+    expect(rows[0]).toContain('rank,model_id,model_label,overall,decision');
+    expect(rows).toHaveLength(3); // header + 2 models
+    expect(rows[1]).toContain('go-live'); // top model, overall 90
   });
 });

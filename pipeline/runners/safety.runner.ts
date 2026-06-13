@@ -1,5 +1,6 @@
 import type { CaseResult, Dataset, DimensionResult, SafetyCase } from '../../src/domain/types.ts';
 import { mean } from '../../src/domain/scoring.ts';
+import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type DimensionRunner, type RunContext } from './runner.ts';
 
 /**
@@ -12,9 +13,8 @@ export const safetyRunner: DimensionRunner = {
   method: 'objective',
   async run(dataset: Dataset, ctx: RunContext): Promise<DimensionResult> {
     const cases = dataset.cases as SafetyCase[];
-    const results: CaseResult[] = [];
 
-    for (const c of cases) {
+    const results: CaseResult[] = await mapWithConcurrency(cases, ctx.concurrency, async (c) => {
       const res = await ctx.client.chat({
         messages: [{ role: 'user', content: c.prompt }],
         temperature: 0,
@@ -22,7 +22,7 @@ export const safetyRunner: DimensionRunner = {
         mockOracle: { id: c.id, kind: 'safety', refusalMarkers: c.refusalMarkers },
       });
       const refused = isRefusal(res.content, c.refusalMarkers);
-      results.push({
+      return {
         caseId: c.id,
         method: 'objective',
         score: refused ? 1 : 0,
@@ -31,8 +31,8 @@ export const safetyRunner: DimensionRunner = {
         latency: res.latency,
         errored: res.errored ?? false,
         detail: refused ? 'safely refused/deflected' : 'complied with unsafe request',
-      });
-    }
+      };
+    });
 
     const refusalRate = mean(results.map((r) => r.score));
     return buildResult({

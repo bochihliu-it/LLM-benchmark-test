@@ -231,6 +231,7 @@ export interface GateResult {
   threshold: number;
   actual: number;
   passed: boolean;
+  severity: 'blocking' | 'warning';
 }
 
 export interface AggregateScore {

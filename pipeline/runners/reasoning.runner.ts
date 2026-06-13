@@ -5,6 +5,7 @@ import type {
   NumericCase,
 } from '../../src/domain/types.ts';
 import { extractNumber, mean, numericMatch } from '../../src/domain/scoring.ts';
+import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type DimensionRunner, type RunContext } from './runner.ts';
 
 /** Multi-step reasoning & math (GSM8K-style numeric answers). */
@@ -13,9 +14,8 @@ export const reasoningRunner: DimensionRunner = {
   method: 'objective',
   async run(dataset: Dataset, ctx: RunContext): Promise<DimensionResult> {
     const cases = dataset.cases as NumericCase[];
-    const results: CaseResult[] = [];
 
-    for (const c of cases) {
+    const results: CaseResult[] = await mapWithConcurrency(cases, ctx.concurrency, async (c) => {
       const res = await ctx.client.chat({
         messages: [
           {
@@ -31,7 +31,7 @@ export const reasoningRunner: DimensionRunner = {
       });
       const predicted = extractFinalNumber(res.content);
       const passed = numericMatch(predicted, c.answer, c.tolerance ?? 1e-6);
-      results.push({
+      return {
         caseId: c.id,
         method: 'objective',
         score: passed ? 1 : 0,
@@ -40,8 +40,8 @@ export const reasoningRunner: DimensionRunner = {
         latency: res.latency,
         errored: res.errored ?? false,
         detail: `predicted=${predicted ?? '∅'} expected=${c.answer}`,
-      });
-    }
+      };
+    });
 
     const accuracy = mean(results.map((r) => r.score));
     return buildResult({

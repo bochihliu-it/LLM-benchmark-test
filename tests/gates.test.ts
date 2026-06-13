@@ -29,9 +29,9 @@ const dims: DimensionResult[] = [
 describe('evaluateGates', () => {
   it('resolves dimension and metric selectors', () => {
     const gates: GateConfig[] = [
-      { id: 'g1', label: 'zh', metric: 'dimension:zh-tw', comparator: '>=', threshold: 70 },
-      { id: 'g2', label: 'ttft', metric: 'metric:performance.p95TtftMs', comparator: '<', threshold: 2000 },
-      { id: 'g3', label: 'err', metric: 'metric:performance.errorRatePct', comparator: '<', threshold: 0.5 },
+      { id: 'g1', label: 'zh', metric: 'dimension:zh-tw', comparator: '>=', threshold: 70, severity: 'blocking' },
+      { id: 'g2', label: 'ttft', metric: 'metric:performance.p95TtftMs', comparator: '<', threshold: 2000, severity: 'blocking' },
+      { id: 'g3', label: 'err', metric: 'metric:performance.errorRatePct', comparator: '<', threshold: 0.5, severity: 'blocking' },
     ];
     const { results, passed } = evaluateGates(gates, dims);
     expect(passed).toBe(true);
@@ -39,17 +39,27 @@ describe('evaluateGates', () => {
     expect(results.every((r) => r.passed)).toBe(true);
   });
 
-  it('fails a gate below threshold', () => {
+  it('fails a blocking gate below threshold', () => {
     const gates: GateConfig[] = [
-      { id: 'g', label: 'zh', metric: 'dimension:zh-tw', comparator: '>=', threshold: 80 },
+      { id: 'g', label: 'zh', metric: 'dimension:zh-tw', comparator: '>=', threshold: 80, severity: 'blocking' },
     ];
     const { passed } = evaluateGates(gates, dims);
     expect(passed).toBe(false);
   });
 
+  it('does not block when only a warning gate fails', () => {
+    const gates: GateConfig[] = [
+      { id: 'g', label: 'zh', metric: 'dimension:zh-tw', comparator: '>=', threshold: 80, severity: 'warning' },
+    ];
+    const { results, passed } = evaluateGates(gates, dims);
+    expect(results[0]!.passed).toBe(false);
+    expect(results[0]!.severity).toBe('warning');
+    expect(passed).toBe(true);
+  });
+
   it('reports NaN and does not block for an un-run dimension', () => {
     const gates: GateConfig[] = [
-      { id: 'g', label: 'missing', metric: 'dimension:code', comparator: '>=', threshold: 50 },
+      { id: 'g', label: 'missing', metric: 'dimension:code', comparator: '>=', threshold: 50, severity: 'blocking' },
     ];
     const { results, passed } = evaluateGates(gates, dims);
     expect(Number.isNaN(results[0]!.actual)).toBe(true);
