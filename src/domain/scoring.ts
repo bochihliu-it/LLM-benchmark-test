@@ -80,7 +80,6 @@ export function passAtK(n: number, c: number, k: number): number {
  */
 export function performanceScore(opts: {
   p95TtftMs: number;
-  tpotMs: number;
   tokensPerSec: number;
   errorRate: number;
   targetP95TtftMs?: number;

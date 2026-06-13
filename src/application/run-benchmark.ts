@@ -9,6 +9,7 @@ import { createJudge, createModelClient } from '../infrastructure/client-factory
 import { DatasetLoader } from '../infrastructure/dataset-loader.ts';
 import { ResultStore } from '../infrastructure/result-store.ts';
 import { createLogger, type Logger } from '../infrastructure/logger.ts';
+import { recommend } from '../domain/decision.ts';
 import { runModel } from './orchestrator.ts';
 import { ReportWriter } from './report-writer.ts';
 
@@ -20,6 +21,8 @@ export async function loadConfig(path: string): Promise<BenchmarkConfig> {
 export interface RunOptions {
   reportsDir: string;
   logger?: Logger;
+  /** When false, skip writing per-run reports and the leaderboard. Default true. */
+  writeReports?: boolean;
 }
 
 export async function runBenchmark(
@@ -27,13 +30,14 @@ export async function runBenchmark(
   opts: RunOptions,
 ): Promise<BenchmarkResult[]> {
   const logger = opts.logger ?? createLogger('info');
+  const writeReports = opts.writeReports ?? true;
   const loader = new DatasetLoader(config.datasetsDir);
   const judge = createJudge(config, logger);
   const store = new ResultStore(config.resultsDir);
   const reporter = new ReportWriter(opts.reportsDir, config.goLiveThreshold);
 
   logger.info(
-    `Starting "${config.name}" — ${config.models.length} model(s) × ${config.dimensions.length} dimension(s)`,
+    `Starting "${config.name}" — ${config.models.length} model(s) × ${config.dimensions.length} dimension(s), concurrency=${config.concurrency}, seed=${config.seed}`,
   );
 
   const results: BenchmarkResult[] = [];
@@ -41,22 +45,25 @@ export async function runBenchmark(
     const client = createModelClient(model, config, logger);
     const result = await runModel(model, client, { config, loader, judge, logger });
     const savedTo = await store.save(result);
-    const reportTo = await reporter.writeRunReport(result);
+    const rec = recommend(result.aggregate, config.goLiveThreshold);
     logger.info(
-      `★ ${model.label}: overall ${result.aggregate.overall.toFixed(1)}/100 — gates ${
-        result.aggregate.gatesPassed ? 'PASS' : 'FAIL'
-      }`,
+      `★ ${model.label}: overall ${result.aggregate.overall.toFixed(1)}/100 — ${rec.label} (${rec.reason})`,
     );
     logger.info(`  results: ${savedTo}`);
-    logger.info(`  report:  ${reportTo}`);
+    if (writeReports) {
+      const reportTo = await reporter.writeRunReport(result);
+      logger.info(`  report:  ${reportTo}`);
+    }
     results.push(result);
   }
 
-  // Refresh the leaderboard from the full result history, not just this run.
-  const all = await store.loadAll();
-  const board = all.length ? all : results;
-  const boardPath = await reporter.writeLeaderboard(board);
-  logger.info(`Leaderboard updated: ${boardPath} (${board.length} models)`);
+  if (writeReports) {
+    // Refresh the leaderboard from the full result history, not just this run.
+    const all = await store.loadAll();
+    const board = all.length ? all : results;
+    const boardPath = await reporter.writeLeaderboard(board);
+    logger.info(`Leaderboard updated: ${boardPath} (${board.length} models)`);
+  }
 
   return results;
 }

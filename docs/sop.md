@@ -24,9 +24,12 @@
 3. **執行評測**
    ```bash
    pnpm benchmark run --config pipeline/configs/<your-run>.json
+   # 可用旗標彈性調整單次評測，毋須改 JSON，例如只跑部分維度 / 模型：
+   pnpm benchmark run --config <run>.json --dimensions general,zh-tw,rag --models <id>
    ```
    - 8 個維度會在同一條管線一起跑完。
-   - 產出 `results/<model>__<timestamp>.json` 與 `reports/report__<model>__<timestamp>.md`。
+   - 產出 `results/<model>__<timestamp>.json`、`reports/report__<model>__<timestamp>.md`（含雷達圖）。
+   - 每次執行另存一份可追溯紀錄於 `logs/run__<name>__<timestamp>.log`（`--no-log-file` 可關閉）。
 
 4. **效能負載測試（維度外的深度量測）**
    - in-process 的 `performance` 維度只是 smoke 量測。

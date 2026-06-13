@@ -1,5 +1,5 @@
 import type { CodeCase, Dataset, DimensionResult, CaseResult } from '../../src/domain/types.ts';
-import { mean, passAtK } from '../../src/domain/scoring.ts';
+import { mean } from '../../src/domain/scoring.ts';
 import { extractCodeBlock } from '../../src/shared/parse.ts';
 import { runCodeTests } from '../../src/shared/code-sandbox.ts';
 import { mapWithConcurrency } from '../../src/shared/async.ts';
@@ -43,20 +43,16 @@ export const codeRunner: DimensionRunner = {
       };
     });
 
+    // One sample per task, so pass@1 is simply the pass rate. The passAtK
+    // estimator in scoring.ts is ready if multi-sampling is added later.
     const passRate = mean(results.map((r) => r.score));
-    // With one sample per task, pass@1 equals the pass rate; expressed via the
-    // estimator so the field is meaningful if sampling is increased later.
-    const pass1 = passAtK(1, results.filter((r) => r.passed).length > 0 ? 1 : 0, 1) * passRate;
     return buildResult({
       dimensionId: 'code',
       group: ctx.groupFor('code'),
       method: 'objective',
       rawScore: passRate * 100,
       cases: results,
-      metrics: {
-        passAt1Pct: Math.round(passRate * 1000) / 10,
-        sampledPass1: Math.round(pass1 * 1000) / 10,
-      },
+      metrics: { passAt1Pct: Math.round(passRate * 1000) / 10 },
       dataset,
     });
   },

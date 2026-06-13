@@ -51,7 +51,6 @@ export const performanceRunner: DimensionRunner = {
     const errorRate = results.length ? errors / results.length : 0;
     const score = performanceScore({
       p95TtftMs: lat.p95TtftMs,
-      tpotMs: lat.meanTpotMs,
       tokensPerSec,
       errorRate,
     });

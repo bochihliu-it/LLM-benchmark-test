@@ -8,35 +8,58 @@
  * The same `run` command works against the offline mock provider and a real
  * LiteLLM gateway — the only difference is the config's `provider` field.
  */
+import { join } from 'node:path';
 import { parseArgs } from './args.ts';
+import { applyOverrides, parseList } from './overrides.ts';
 import { loadConfig, runBenchmark } from '../application/run-benchmark.ts';
 import { validateConfig } from '../application/validate.ts';
 import { ResultStore } from '../infrastructure/result-store.ts';
 import { ReportWriter } from '../application/report-writer.ts';
 import { DATASET_FILES } from '../infrastructure/dataset-loader.ts';
 import { RUNNERS } from '../../pipeline/runners/registry.ts';
-import { createLogger } from '../infrastructure/logger.ts';
+import { createLogger, createFileSink, type LogLevel } from '../infrastructure/logger.ts';
 import type { DimensionId } from '../domain/types.ts';
 
 const USAGE = `AI Benchmark — standardized LLM evaluation behind LiteLLM
 
 Usage:
-  benchmark run      --config <path> [--reports <dir>] [--log <level>]
+  benchmark run      --config <path> [overrides] [logging]
   benchmark validate --config <path>
   benchmark list
   benchmark report   [--results <dir>] [--out <dir>]
 
+Run overrides (flex a run without editing the config):
+  --dimensions a,b,c   run only these dimensions
+  --models id1,id2     run only these model ids
+  --seed <s>           override the reproducibility seed
+  --concurrency <n>    override per-dimension concurrency
+  --go-live <n>        override the go-live overall threshold
+  --reports <dir>      report output dir (default: reports)
+  --results <dir>      results output dir (overrides config.resultsDir)
+  --datasets <dir>     datasets dir (overrides config.datasetsDir)
+  --no-report          skip writing reports/leaderboard
+
+Logging:
+  --log <level>        console level: debug|info|warn|error (default: info)
+  --log-file <path>    run log file (default: logs/run__<name>__<stamp>.log)
+  --no-log-file        do not write a run log file
+
 Examples:
   pnpm benchmark:sample
-  pnpm benchmark run --config pipeline/configs/sample-suite.json
+  pnpm benchmark run --config pipeline/configs/sample-suite.json --dimensions general,code
+  pnpm benchmark run --config pipeline/configs/sample-suite.json --models sample-llama-70b
   pnpm benchmark validate --config pipeline/configs/sample-model.json
   pnpm benchmark list
-  pnpm benchmark report --results results --out reports
 `;
 
+function timestamp(): string {
+  return new Date().toISOString().replace(/[:.]/g, '-');
+}
+
 async function main(): Promise<void> {
-  const { command, options } = parseArgs(process.argv.slice(2));
-  const logger = createLogger((options.log as 'info') ?? 'info');
+  const { command, options, flags } = parseArgs(process.argv.slice(2));
+  const logLevel = (options.log as LogLevel) ?? 'info';
+  const logger = createLogger(logLevel);
 
   switch (command) {
     case 'run': {
@@ -47,9 +70,35 @@ async function main(): Promise<void> {
         process.exitCode = 1;
         return;
       }
-      const config = await loadConfig(configPath);
+
+      let config = await loadConfig(configPath);
+      try {
+        config = applyOverrides(config, {
+          seed: options.seed,
+          concurrency: options.concurrency ? Number(options.concurrency) : undefined,
+          goLiveThreshold: options['go-live'] ? Number(options['go-live']) : undefined,
+          dimensions: parseList(options.dimensions),
+          models: parseList(options.models),
+          datasetsDir: options.datasets,
+          resultsDir: options.results,
+        });
+      } catch (err) {
+        logger.error(err instanceof Error ? err.message : String(err));
+        process.exitCode = 1;
+        return;
+      }
+
+      // Attach a durable run log unless disabled.
+      if (!flags.has('no-log-file')) {
+        const safeName = config.name.replace(/[^a-zA-Z0-9._-]+/g, '_');
+        const logFile = options['log-file'] ?? join('logs', `run__${safeName}__${timestamp()}.log`);
+        logger.addSink(createFileSink(logFile));
+        logger.info(`Run log: ${logFile}`);
+      }
+
       const results = await runBenchmark(config, {
         reportsDir: options.reports ?? 'reports',
+        writeReports: !flags.has('no-report'),
         logger,
       });
       const blocked = results.filter((r) => !r.aggregate.gatesPassed).length;

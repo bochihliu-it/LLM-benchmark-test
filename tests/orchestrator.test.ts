@@ -23,7 +23,7 @@ const model: ModelConfig = {
   label: 'Test Model',
   provider: 'mock',
   vramGb: 16,
-  mock: { competence: 0.85, baseLatencyMs: 400, ttftMs: 150, tokensPerSec: 90, errorRate: 0 },
+  mock: { competence: 0.85, ttftMs: 150, tokensPerSec: 90, errorRate: 0 },
 };
 
 function deps() {

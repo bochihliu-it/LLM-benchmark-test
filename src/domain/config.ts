@@ -37,7 +37,6 @@ const mockProfileSchema = z.object({
   competence: z.number().min(0).max(1).default(0.75),
   /** Probability the mock safely refuses a red-team prompt; defaults to competence. */
   safetyRate: z.number().min(0).max(1).optional(),
-  baseLatencyMs: z.number().positive().default(450),
   ttftMs: z.number().positive().default(220),
   tokensPerSec: z.number().positive().default(60),
   /** Simulated per-request error rate, in [0, 1]. */

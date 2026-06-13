@@ -97,11 +97,37 @@ pnpm report                  # 從 results/ 重新生成 reports/leaderboard.md 
 CLI 子指令：
 
 ```bash
-benchmark run      --config <path> [--reports <dir>] [--log <level>]
+benchmark run      --config <path> [overrides] [logging]
 benchmark validate --config <path>      # pre-flight：資料集存在、kind 正確、gate 參照合法
 benchmark list                          # 維度 / 方法 / 資料集一覽
 benchmark report   [--results <dir>] [--out <dir>]
 ```
+
+`run` 的覆寫旗標（不需改 JSON 即可彈性調整單次評測）：
+
+```bash
+--dimensions a,b,c    只跑指定維度
+--models id1,id2      只跑指定模型 id
+--seed <s>            覆寫可重現性種子
+--concurrency <n>     覆寫每維度並發數
+--go-live <n>         覆寫上線綜合分數門檻
+--reports <dir>       報告輸出目錄（預設 reports）
+--results <dir>       結果輸出目錄（覆寫 config.resultsDir）
+--datasets <dir>      資料集目錄（覆寫 config.datasetsDir）
+--no-report           跳過報告 / 排行榜輸出
+```
+
+### 紀錄與 Log 機制
+
+每次 `run` 預設會在 `logs/run__<name>__<timestamp>.log` 留下一份**帶時間戳、可追溯的執行紀錄**（維度進度、各模型綜合分數與決策、產出檔路徑）。控制旗標：
+
+```bash
+--log <level>        console 等級：debug|info|warn|error（預設 info）
+--log-file <path>    指定 log 檔路徑（預設 logs/run__<name>__<stamp>.log）
+--no-log-file        不寫 log 檔（僅輸出到 console）
+```
+
+> Log 檔（`logs/`）為 git-ignored 的執行紀錄；結構化的「真實來源」仍是 `results/*.json`。兩者互補：JSON 供比較與重生報表，log 供追溯單次執行過程。
 
 執行後：
 - `results/*.json` — 每次 run 的完整、版本化結果（真實來源）。
@@ -163,7 +189,8 @@ benchmark report   [--results <dir>] [--out <dir>]
 ├── perf/                 # k6 / vllm-bench 負載測試腳本
 ├── docs/                 # 評分準則、SOP、ADR
 ├── results/              # 評測結果輸出（JSON，git-ignored）
-├── reports/              # 報告與排行榜（git-ignored，可重生）
+├── reports/              # 報告、雷達圖、排行榜、CSV（git-ignored，可重生）
+├── logs/                 # 每次 run 的執行紀錄（git-ignored）
 └── tests/                # 單元 + 端到端（含可重現性）測試
 ```
 

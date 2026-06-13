@@ -51,8 +51,8 @@ describe('percentile', () => {
 
 describe('performanceScore', () => {
   it('rewards low latency and high throughput', () => {
-    const fast = performanceScore({ p95TtftMs: 300, tpotMs: 10, tokensPerSec: 120, errorRate: 0 });
-    const slow = performanceScore({ p95TtftMs: 4000, tpotMs: 80, tokensPerSec: 10, errorRate: 0.1 });
+    const fast = performanceScore({ p95TtftMs: 300, tokensPerSec: 120, errorRate: 0 });
+    const slow = performanceScore({ p95TtftMs: 4000, tokensPerSec: 10, errorRate: 0.1 });
     expect(fast).toBeGreaterThan(slow);
     expect(fast).toBeLessThanOrEqual(100);
     expect(slow).toBeGreaterThanOrEqual(0);

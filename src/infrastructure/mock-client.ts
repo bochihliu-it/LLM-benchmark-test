@@ -19,7 +19,6 @@ import { hashSeed, mulberry32, seededChance, seededFloat } from '../shared/rng.t
 
 const DEFAULT_PROFILE: MockProfile = {
   competence: 0.75,
-  baseLatencyMs: 450,
   ttftMs: 220,
   tokensPerSec: 60,
   errorRate: 0,
