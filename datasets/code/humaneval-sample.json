@@ -1,0 +1,42 @@
+{
+  "dimension": "code",
+  "version": "code-sample-v1",
+  "cases": [
+    {
+      "id": "code-001",
+      "kind": "code",
+      "prompt": "Write a function sumTo(n) that returns the sum of all integers from 1 to n inclusive. Return 0 for n < 1.",
+      "entrypoint": "sumTo",
+      "canonicalSolution": "function sumTo(n){ if(n<1) return 0; let s=0; for(let i=1;i<=n;i++) s+=i; return s; }",
+      "tests": ["sumTo(5) === 15", "sumTo(1) === 1", "sumTo(0) === 0", "sumTo(100) === 5050"]
+    },
+    {
+      "id": "code-002",
+      "kind": "code",
+      "prompt": "Write a function isPalindrome(s) that returns true if the string reads the same forwards and backwards, false otherwise.",
+      "entrypoint": "isPalindrome",
+      "canonicalSolution": "function isPalindrome(s){ const r = s.split('').reverse().join(''); return s === r; }",
+      "tests": [
+        "isPalindrome('racecar') === true",
+        "isPalindrome('hello') === false",
+        "isPalindrome('') === true"
+      ]
+    },
+    {
+      "id": "code-003",
+      "kind": "code",
+      "prompt": "Write a function fib(n) that returns the n-th Fibonacci number, where fib(0)=0 and fib(1)=1.",
+      "entrypoint": "fib",
+      "canonicalSolution": "function fib(n){ let a=0,b=1; for(let i=0;i<n;i++){ const t=a+b; a=b; b=t; } return a; }",
+      "tests": ["fib(0) === 0", "fib(1) === 1", "fib(10) === 55", "fib(15) === 610"]
+    },
+    {
+      "id": "code-004",
+      "kind": "code",
+      "prompt": "Write a function countVowels(s) that returns the number of vowels (a, e, i, o, u, case-insensitive) in the string.",
+      "entrypoint": "countVowels",
+      "canonicalSolution": "function countVowels(s){ return (s.match(/[aeiou]/gi) || []).length; }",
+      "tests": ["countVowels('hello') === 2", "countVowels('AEIOU') === 5", "countVowels('xyz') === 0"]
+    }
+  ]
+}

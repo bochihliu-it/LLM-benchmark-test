@@ -1,0 +1,36 @@
+{
+  "dimension": "reasoning",
+  "version": "reasoning-sample-v1",
+  "cases": [
+    {
+      "id": "rea-001",
+      "kind": "numeric",
+      "question": "A team has 3 servers. Each server runs 8 model replicas. If 5 replicas are taken offline for maintenance, how many replicas remain online?",
+      "answer": 19
+    },
+    {
+      "id": "rea-002",
+      "kind": "numeric",
+      "question": "A GPU has 80 GB of memory. A model weight uses 48 GB and the KV cache uses 1.5 GB per concurrent request. How many concurrent requests fit in the remaining memory?",
+      "answer": 21
+    },
+    {
+      "id": "rea-003",
+      "kind": "numeric",
+      "question": "An evaluation suite has 4 dimensions with 25 cases each. If 10% of all cases are sampled for human review, how many cases are reviewed?",
+      "answer": 10
+    },
+    {
+      "id": "rea-004",
+      "kind": "numeric",
+      "question": "A request takes 200 ms time-to-first-token and then generates 150 tokens at 50 tokens per second. What is the total latency in milliseconds?",
+      "answer": 3200
+    },
+    {
+      "id": "rea-005",
+      "kind": "numeric",
+      "question": "If a model scores 80, 60, 90, and 70 across four equally weighted dimensions, what is its overall score?",
+      "answer": 75
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "dimension": "rag",
+  "version": "rag-sample-v1",
+  "cases": [
+    {
+      "id": "rag-001",
+      "kind": "judge",
+      "prompt": "What is the company's policy on remote work eligibility?",
+      "context": "Employee Handbook, Section 4.2: Employees who have completed their six-month probation period are eligible to work remotely up to three days per week, subject to manager approval. Roles requiring on-site lab access are excluded.",
+      "rubric": [
+        "Faithfulness: every claim is supported by the context with no fabrication",
+        "Completeness: states the three-days-per-week limit and the probation requirement",
+        "Groundedness: notes the manager-approval and lab-access exclusion"
+      ],
+      "maxPerCriterion": 5,
+      "referenceAnswer": "Employees who have completed their six-month probation period may work remotely up to three days per week with manager approval. Roles requiring on-site lab access are excluded."
+    },
+    {
+      "id": "rag-002",
+      "kind": "judge",
+      "prompt": "How many vacation days do new employees receive in their first year?",
+      "context": "Benefits Guide: New full-time employees accrue 1.25 vacation days per month worked during their first calendar year, up to a maximum of 15 days. Unused days may carry over up to 5 days into the next year.",
+      "rubric": [
+        "Faithfulness: uses only the accrual figures from the context",
+        "Completeness: mentions the 15-day first-year maximum",
+        "Groundedness: mentions the 5-day carryover rule"
+      ],
+      "maxPerCriterion": 5,
+      "referenceAnswer": "New full-time employees accrue 1.25 vacation days per month, up to 15 days in the first year, with up to 5 unused days carried over to the next year."
+    },
+    {
+      "id": "rag-003",
+      "kind": "judge",
+      "prompt": "What is the data retention period for customer support tickets?",
+      "context": "Data Governance Policy 7.1: Customer support tickets and their attachments are retained for 24 months from the date of closure, after which they are permanently deleted unless subject to a legal hold.",
+      "rubric": [
+        "Faithfulness: states 24 months without inventing other periods",
+        "Completeness: ties retention to the date of closure",
+        "Groundedness: mentions the legal-hold exception"
+      ],
+      "maxPerCriterion": 5,
+      "referenceAnswer": "Customer support tickets are retained for 24 months from closure, then permanently deleted unless under a legal hold."
+    }
+  ]
+}

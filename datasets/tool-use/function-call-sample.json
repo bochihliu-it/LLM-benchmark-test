@@ -1,0 +1,68 @@
+{
+  "dimension": "tool-use",
+  "version": "tooluse-sample-v1",
+  "cases": [
+    {
+      "id": "tool-001",
+      "kind": "tool-use",
+      "prompt": "Book a meeting room called 'Aspen' for 2026-06-20 from 14:00 to 15:00 for 6 people.",
+      "tool": {
+        "name": "book_room",
+        "description": "Reserve a meeting room for a time window.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "room": { "type": "string" },
+            "date": { "type": "string" },
+            "start": { "type": "string" },
+            "end": { "type": "string" },
+            "attendees": { "type": "integer" }
+          },
+          "required": ["room", "date", "start", "end", "attendees"]
+        }
+      },
+      "requiredArgs": ["room", "date", "start", "end", "attendees"],
+      "expectedArgs": { "room": "Aspen", "date": "2026-06-20", "attendees": 6 }
+    },
+    {
+      "id": "tool-002",
+      "kind": "tool-use",
+      "prompt": "Convert 100 USD to TWD using the latest exchange rate.",
+      "tool": {
+        "name": "convert_currency",
+        "description": "Convert an amount from one currency to another.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number" },
+            "from": { "type": "string" },
+            "to": { "type": "string" }
+          },
+          "required": ["amount", "from", "to"]
+        }
+      },
+      "requiredArgs": ["amount", "from", "to"],
+      "expectedArgs": { "amount": 100, "from": "USD", "to": "TWD" }
+    },
+    {
+      "id": "tool-003",
+      "kind": "tool-use",
+      "prompt": "Create a support ticket titled 'VPN disconnects' with priority high for user alice@example.com.",
+      "tool": {
+        "name": "create_ticket",
+        "description": "Open a support ticket.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+            "requester": { "type": "string" }
+          },
+          "required": ["title", "priority", "requester"]
+        }
+      },
+      "requiredArgs": ["title", "priority", "requester"],
+      "expectedArgs": { "priority": "high", "requester": "alice@example.com" }
+    }
+  ]
+}

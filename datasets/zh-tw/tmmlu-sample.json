@@ -1,0 +1,53 @@
+{
+  "dimension": "zh-tw",
+  "version": "zhtw-sample-v1",
+  "cases": [
+    {
+      "id": "zh-001",
+      "kind": "multiple-choice",
+      "question": "「請幫我把這封郵件潤飾得更正式」屬於企業中哪一類常見任務？",
+      "choices": { "A": "程式除錯", "B": "公文與郵件撰寫", "C": "影像辨識", "D": "語音合成" },
+      "answer": "B"
+    },
+    {
+      "id": "zh-002",
+      "kind": "multiple-choice",
+      "question": "下列何者為台灣最大的半導體製造公司？",
+      "choices": { "A": "鴻海", "B": "台積電", "C": "聯發科", "D": "中華電信" },
+      "answer": "B"
+    },
+    {
+      "id": "zh-003",
+      "kind": "multiple-choice",
+      "question": "「年終獎金」在企業人資情境中，最接近下列哪一個概念？",
+      "choices": { "A": "固定底薪", "B": "年度績效獎酬", "C": "勞健保費", "D": "退休金提撥" },
+      "answer": "B"
+    },
+    {
+      "id": "zh-004",
+      "kind": "multiple-choice",
+      "question": "在繁體中文輸入法中，「注音」主要用於下列何種用途？",
+      "choices": { "A": "數學運算", "B": "中文字輸入", "C": "影片剪輯", "D": "網路連線" },
+      "answer": "B"
+    },
+    {
+      "id": "zh-005",
+      "kind": "multiple-choice",
+      "question": "下列哪一個詞語為「會議記錄」的同義說法？",
+      "choices": { "A": "簽到表", "B": "會議紀要", "C": "報價單", "D": "出差申請" },
+      "answer": "B"
+    },
+    {
+      "id": "zh-006",
+      "kind": "multiple-choice",
+      "question": "企業導入 RAG（檢索增強生成）的主要目的是？",
+      "choices": {
+        "A": "提升模型推論速度",
+        "B": "讓模型依據內部文件作答以降低幻覺",
+        "C": "壓縮模型權重",
+        "D": "增加 GPU 數量"
+      },
+      "answer": "B"
+    }
+  ]
+}

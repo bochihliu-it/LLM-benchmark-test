@@ -1,0 +1,53 @@
+{
+  "dimension": "general",
+  "version": "general-sample-v1",
+  "cases": [
+    {
+      "id": "gen-001",
+      "kind": "multiple-choice",
+      "question": "Which data structure uses FIFO (first-in, first-out) ordering?",
+      "choices": { "A": "Stack", "B": "Queue", "C": "Binary tree", "D": "Hash map" },
+      "answer": "B"
+    },
+    {
+      "id": "gen-002",
+      "kind": "multiple-choice",
+      "question": "In the OSI model, at which layer does TCP operate?",
+      "choices": { "A": "Network", "B": "Transport", "C": "Session", "D": "Application" },
+      "answer": "B"
+    },
+    {
+      "id": "gen-003",
+      "kind": "multiple-choice",
+      "question": "What is the time complexity of binary search on a sorted array of n elements?",
+      "choices": { "A": "O(1)", "B": "O(log n)", "C": "O(n)", "D": "O(n log n)" },
+      "answer": "B"
+    },
+    {
+      "id": "gen-004",
+      "kind": "multiple-choice",
+      "question": "Which HTTP status code indicates the requested resource was not found?",
+      "choices": { "A": "200", "B": "301", "C": "404", "D": "500" },
+      "answer": "C"
+    },
+    {
+      "id": "gen-005",
+      "kind": "multiple-choice",
+      "question": "Which gas do plants primarily absorb during photosynthesis?",
+      "choices": { "A": "Oxygen", "B": "Nitrogen", "C": "Carbon dioxide", "D": "Hydrogen" },
+      "answer": "C"
+    },
+    {
+      "id": "gen-006",
+      "kind": "multiple-choice",
+      "question": "A model is asked to follow an instruction to output exactly three bullet points. This tests which capability?",
+      "choices": {
+        "A": "Arithmetic reasoning",
+        "B": "Instruction following",
+        "C": "Image recognition",
+        "D": "Speech synthesis"
+      },
+      "answer": "B"
+    }
+  ]
+}

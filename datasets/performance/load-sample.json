@@ -1,0 +1,36 @@
+{
+  "dimension": "performance",
+  "version": "perf-sample-v1",
+  "cases": [
+    {
+      "id": "perf-001",
+      "kind": "perf",
+      "prompt": "Summarize the benefits of retrieval-augmented generation in two sentences.",
+      "maxTokens": 128
+    },
+    {
+      "id": "perf-002",
+      "kind": "perf",
+      "prompt": "Write a 200-word product description for an internal knowledge assistant.",
+      "maxTokens": 256
+    },
+    {
+      "id": "perf-003",
+      "kind": "perf",
+      "prompt": "Explain the difference between latency and throughput for an LLM serving system.",
+      "maxTokens": 192
+    },
+    {
+      "id": "perf-004",
+      "kind": "perf",
+      "prompt": "List ten considerations for deploying open-source LLMs on constrained GPU hardware.",
+      "maxTokens": 320
+    },
+    {
+      "id": "perf-005",
+      "kind": "perf",
+      "prompt": "Draft a short status update for a model evaluation project.",
+      "maxTokens": 160
+    }
+  ]
+}

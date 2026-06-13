@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Benchmark artifacts (keep directories, ignore generated content)
+results/**/*.json
+results/**/*.parquet
+reports/**/*.md
+reports/**/*.html
+!reports/.gitkeep
+!results/.gitkeep
+!reports/leaderboard.template.md
+
+# OS
+.DS_Store
+Thumbs.db
