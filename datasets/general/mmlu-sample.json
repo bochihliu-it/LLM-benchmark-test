@@ -1,53 +1,36 @@
 {
   "dimension": "general",
-  "version": "general-sample-v1",
+  "version": "general-v1",
   "cases": [
-    {
-      "id": "gen-001",
-      "kind": "multiple-choice",
-      "question": "Which data structure uses FIFO (first-in, first-out) ordering?",
-      "choices": { "A": "Stack", "B": "Queue", "C": "Binary tree", "D": "Hash map" },
-      "answer": "B"
-    },
-    {
-      "id": "gen-002",
-      "kind": "multiple-choice",
-      "question": "In the OSI model, at which layer does TCP operate?",
-      "choices": { "A": "Network", "B": "Transport", "C": "Session", "D": "Application" },
-      "answer": "B"
-    },
-    {
-      "id": "gen-003",
-      "kind": "multiple-choice",
-      "question": "What is the time complexity of binary search on a sorted array of n elements?",
-      "choices": { "A": "O(1)", "B": "O(log n)", "C": "O(n)", "D": "O(n log n)" },
-      "answer": "B"
-    },
-    {
-      "id": "gen-004",
-      "kind": "multiple-choice",
-      "question": "Which HTTP status code indicates the requested resource was not found?",
-      "choices": { "A": "200", "B": "301", "C": "404", "D": "500" },
-      "answer": "C"
-    },
-    {
-      "id": "gen-005",
-      "kind": "multiple-choice",
-      "question": "Which gas do plants primarily absorb during photosynthesis?",
-      "choices": { "A": "Oxygen", "B": "Nitrogen", "C": "Carbon dioxide", "D": "Hydrogen" },
-      "answer": "C"
-    },
-    {
-      "id": "gen-006",
-      "kind": "multiple-choice",
-      "question": "A model is asked to follow an instruction to output exactly three bullet points. This tests which capability?",
-      "choices": {
-        "A": "Arithmetic reasoning",
-        "B": "Instruction following",
-        "C": "Image recognition",
-        "D": "Speech synthesis"
-      },
-      "answer": "B"
-    }
+    { "id": "gen-001", "kind": "multiple-choice", "question": "Which data structure uses FIFO (first-in, first-out) ordering?", "choices": { "A": "Stack", "B": "Queue", "C": "Binary tree", "D": "Hash map" }, "answer": "B" },
+    { "id": "gen-002", "kind": "multiple-choice", "question": "In the OSI model, at which layer does TCP operate?", "choices": { "A": "Network", "B": "Transport", "C": "Session", "D": "Application" }, "answer": "B" },
+    { "id": "gen-003", "kind": "multiple-choice", "question": "What is the time complexity of binary search on a sorted array of n elements?", "choices": { "A": "O(1)", "B": "O(log n)", "C": "O(n)", "D": "O(n log n)" }, "answer": "B" },
+    { "id": "gen-004", "kind": "multiple-choice", "question": "Which HTTP status code indicates the requested resource was not found?", "choices": { "A": "200", "B": "301", "C": "404", "D": "500" }, "answer": "C" },
+    { "id": "gen-005", "kind": "multiple-choice", "question": "Which gas do plants primarily absorb during photosynthesis?", "choices": { "A": "Oxygen", "B": "Nitrogen", "C": "Carbon dioxide", "D": "Hydrogen" }, "answer": "C" },
+    { "id": "gen-006", "kind": "multiple-choice", "question": "Asking a model to output exactly three bullet points tests which capability?", "choices": { "A": "Arithmetic reasoning", "B": "Instruction following", "C": "Image recognition", "D": "Speech synthesis" }, "answer": "B" },
+    { "id": "gen-007", "kind": "multiple-choice", "question": "Which SQL clause filters rows after grouping?", "choices": { "A": "WHERE", "B": "HAVING", "C": "ORDER BY", "D": "LIMIT" }, "answer": "B" },
+    { "id": "gen-008", "kind": "multiple-choice", "question": "Which HTTP method is idempotent and used to fully replace a resource?", "choices": { "A": "POST", "B": "PUT", "C": "PATCH", "D": "CONNECT" }, "answer": "B" },
+    { "id": "gen-009", "kind": "multiple-choice", "question": "What does the acronym 'API' stand for?", "choices": { "A": "Application Programming Interface", "B": "Applied Process Integration", "C": "Automated Program Instance", "D": "Abstract Protocol Identifier" }, "answer": "A" },
+    { "id": "gen-010", "kind": "multiple-choice", "question": "Which sorting algorithm has the best average-case time complexity of O(n log n) and is comparison-based?", "choices": { "A": "Bubble sort", "B": "Merge sort", "C": "Counting sort", "D": "Insertion sort" }, "answer": "B" },
+    { "id": "gen-011", "kind": "multiple-choice", "question": "In Git, which command creates a new commit that undoes a previous commit without rewriting history?", "choices": { "A": "git reset --hard", "B": "git revert", "C": "git rebase", "D": "git cherry-pick" }, "answer": "B" },
+    { "id": "gen-012", "kind": "multiple-choice", "question": "Which planet is the largest in our solar system?", "choices": { "A": "Saturn", "B": "Jupiter", "C": "Neptune", "D": "Earth" }, "answer": "B" },
+    { "id": "gen-013", "kind": "multiple-choice", "question": "What is the primary purpose of an index in a relational database?", "choices": { "A": "To enforce foreign keys", "B": "To speed up read queries", "C": "To compress the table", "D": "To encrypt columns" }, "answer": "B" },
+    { "id": "gen-014", "kind": "multiple-choice", "question": "Which of these is a valid JSON value?", "choices": { "A": "undefined", "B": "'text'", "C": "true", "D": "0x1F" }, "answer": "C" },
+    { "id": "gen-015", "kind": "multiple-choice", "question": "In probability, what is the sum of probabilities of all possible outcomes of an experiment?", "choices": { "A": "0", "B": "0.5", "C": "1", "D": "100" }, "answer": "C" },
+    { "id": "gen-016", "kind": "multiple-choice", "question": "Which protocol secures HTTP traffic with TLS?", "choices": { "A": "FTP", "B": "HTTPS", "C": "SMTP", "D": "SSH" }, "answer": "B" },
+    { "id": "gen-017", "kind": "multiple-choice", "question": "What does 'idempotent' mean for an operation?", "choices": { "A": "It always fails", "B": "Repeating it yields the same result as doing it once", "C": "It runs in constant time", "D": "It requires authentication" }, "answer": "B" },
+    { "id": "gen-018", "kind": "multiple-choice", "question": "Which data format is line-delimited and commonly used for streaming records?", "choices": { "A": "YAML", "B": "JSONL", "C": "XML", "D": "TOML" }, "answer": "B" },
+    { "id": "gen-019", "kind": "multiple-choice", "question": "In machine learning, what does 'overfitting' describe?", "choices": { "A": "A model that is too small to learn", "B": "A model that memorizes training data and generalizes poorly", "C": "A model trained without labels", "D": "A model with too few parameters" }, "answer": "B" },
+    { "id": "gen-020", "kind": "multiple-choice", "question": "Which unit measures the clock speed of a CPU?", "choices": { "A": "Byte", "B": "Hertz", "C": "Watt", "D": "Pixel" }, "answer": "B" },
+    { "id": "gen-021", "kind": "multiple-choice", "question": "What is the result of the boolean expression: true AND (false OR true)?", "choices": { "A": "true", "B": "false", "C": "undefined", "D": "null" }, "answer": "A" },
+    { "id": "gen-022", "kind": "multiple-choice", "question": "Which design pattern provides a single shared instance across an application?", "choices": { "A": "Factory", "B": "Observer", "C": "Singleton", "D": "Adapter" }, "answer": "C" },
+    { "id": "gen-023", "kind": "multiple-choice", "question": "In the context of LLM serving, what does 'TTFT' stand for?", "choices": { "A": "Total Time For Tokens", "B": "Time To First Token", "C": "Tokens Throughput Factor Test", "D": "Time To Final Throughput" }, "answer": "B" },
+    { "id": "gen-024", "kind": "multiple-choice", "question": "Which HTTP header is used to send a bearer token for authentication?", "choices": { "A": "Content-Type", "B": "Authorization", "C": "Accept", "D": "Host" }, "answer": "B" },
+    { "id": "gen-025", "kind": "multiple-choice", "question": "What is the decimal value of the binary number 1010?", "choices": { "A": "8", "B": "10", "C": "12", "D": "20" }, "answer": "B" },
+    { "id": "gen-026", "kind": "multiple-choice", "question": "Which of the following is an open-weight large language model family?", "choices": { "A": "Llama", "B": "GPT-4", "C": "Gemini", "D": "Claude" }, "answer": "A" },
+    { "id": "gen-027", "kind": "multiple-choice", "question": "In statistics, what does the median represent?", "choices": { "A": "The most frequent value", "B": "The middle value when data is sorted", "C": "The average of all values", "D": "The largest value" }, "answer": "B" },
+    { "id": "gen-028", "kind": "multiple-choice", "question": "Which command-line tool is commonly used to transfer data to or from a server using URLs?", "choices": { "A": "grep", "B": "curl", "C": "chmod", "D": "tar" }, "answer": "B" },
+    { "id": "gen-029", "kind": "multiple-choice", "question": "What does 'RAG' stand for in LLM applications?", "choices": { "A": "Recursive Answer Generation", "B": "Retrieval-Augmented Generation", "C": "Random Access Grouping", "D": "Ranked Aggregate Gating" }, "answer": "B" },
+    { "id": "gen-030", "kind": "multiple-choice", "question": "Which is the correct way to make a function return early when a required argument is missing?", "choices": { "A": "Loop until it appears", "B": "Validate and return/throw at the start (guard clause)", "C": "Ignore it silently", "D": "Cache the previous value" }, "answer": "B" }
   ]
 }

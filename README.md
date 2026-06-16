@@ -185,7 +185,8 @@ benchmark report   [--results <dir>] [--out <dir>]
 ├── pipeline/
 │   ├── configs/          # 模型 / 任務設定
 │   └── runners/          # 各維度評測執行器（共用 DimensionRunner 介面）
-├── datasets/             # 自建測試集（general / reasoning / code / zh-tw / rag / tool-use / redteam / performance）
+├── datasets/             # 自建測試集 v1：8 維度各 ~30 題（共 240 題）
+│   │                     #   general / reasoning / code / zh-tw / rag / tool-use / redteam / performance
 ├── perf/                 # k6 / vllm-bench 負載測試腳本
 ├── docs/                 # 評分準則、SOP、ADR
 ├── results/              # 評測結果輸出（JSON，git-ignored）
