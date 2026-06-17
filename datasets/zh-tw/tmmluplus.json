@@ -1,0 +1,33 @@
+{
+  "dimension": "zh-tw",
+  "version": "tmmluplus-bootstrap-v0",
+  "_note": "BOOTSTRAP PLACEHOLDER — authored locally, NOT the official TMMLU+ data. Run `pnpm ingest:tmmluplus` on a machine with HuggingFace access to replace this with a stratified ~200-question sample from ikala/tmmluplus (MIT).",
+  "source": "bootstrap-placeholder",
+  "license": "real data: ikala/tmmluplus is MIT-licensed",
+  "cases": [
+    { "id": "tmmluplus:computer_science:b1", "kind": "multiple-choice", "subject": "computer_science", "category": "STEM", "question": "二進位 1101 的十進位數值為何？", "choices": { "A": "11", "B": "13", "C": "15", "D": "14" }, "answer": "B" },
+    { "id": "tmmluplus:physics:b1", "kind": "multiple-choice", "subject": "physics", "category": "STEM", "question": "光在真空中的速度約為多少？", "choices": { "A": "3×10^8 公尺/秒", "B": "3×10^6 公尺/秒", "C": "340 公尺/秒", "D": "1.5×10^8 公尺/秒" }, "answer": "A" },
+    { "id": "tmmluplus:engineering_math:b1", "kind": "multiple-choice", "subject": "engineering_math", "category": "STEM", "question": "一元二次方程式 x²-5x+6=0 的兩根為何？", "choices": { "A": "1 與 6", "B": "2 與 3", "C": "-2 與 -3", "D": "0 與 5" }, "answer": "B" },
+    { "id": "tmmluplus:statistics_and_machine_learning:b1", "kind": "multiple-choice", "subject": "statistics_and_machine_learning", "category": "STEM", "question": "機器學習中的「過度擬合(overfitting)」是指？", "choices": { "A": "模型在訓練資料表現好但泛化能力差", "B": "模型參數太少", "C": "訓練時沒有標籤", "D": "模型推論速度太慢" }, "answer": "A" },
+    { "id": "tmmluplus:organic_chemistry:b1", "kind": "multiple-choice", "subject": "organic_chemistry", "category": "STEM", "question": "甲烷的化學式為何？", "choices": { "A": "CH4", "B": "CO2", "C": "H2O", "D": "C2H6" }, "answer": "A" },
+    { "id": "tmmluplus:junior_math_exam:b1", "kind": "multiple-choice", "subject": "junior_math_exam", "category": "STEM", "question": "平面三角形的內角和為幾度？", "choices": { "A": "90", "B": "180", "C": "270", "D": "360" }, "answer": "B" },
+    { "id": "tmmluplus:chinese_language_and_literature:b1", "kind": "multiple-choice", "subject": "chinese_language_and_literature", "category": "Humanities", "question": "成語「畫蛇添足」比喻下列何者？", "choices": { "A": "多此一舉、反而壞事", "B": "精益求精", "C": "臨陣磨槍", "D": "一鳴驚人" }, "answer": "A" },
+    { "id": "tmmluplus:music:b1", "kind": "multiple-choice", "subject": "music", "category": "Humanities", "question": "一個八度音程(octave)包含幾個半音？", "choices": { "A": "7", "B": "12", "C": "5", "D": "8" }, "answer": "B" },
+    { "id": "tmmluplus:introduction_to_law:b1", "kind": "multiple-choice", "subject": "introduction_to_law", "category": "Humanities", "question": "我國現行民法規定的成年年齡為幾歲？", "choices": { "A": "16 歲", "B": "18 歲", "C": "20 歲", "D": "22 歲" }, "answer": "B" },
+    { "id": "tmmluplus:three_principles_of_people:b1", "kind": "multiple-choice", "subject": "three_principles_of_people", "category": "Humanities", "question": "下列何者不屬於三民主義？", "choices": { "A": "民族主義", "B": "民權主義", "C": "民生主義", "D": "民主主義" }, "answer": "D" },
+    { "id": "tmmluplus:junior_chinese_exam:b1", "kind": "multiple-choice", "subject": "junior_chinese_exam", "category": "Humanities", "question": "「床前明月光」的下一句是？", "choices": { "A": "疑是地上霜", "B": "低頭思故鄉", "C": "舉頭望明月", "D": "窗前看月圓" }, "answer": "A" },
+    { "id": "tmmluplus:general_principles_of_law:b1", "kind": "multiple-choice", "subject": "general_principles_of_law", "category": "Humanities", "question": "「法律不溯及既往」原則主要保障的是？", "choices": { "A": "法的安定性與人民信賴", "B": "行政效率", "C": "國庫收入", "D": "言論自由" }, "answer": "A" },
+    { "id": "tmmluplus:macroeconomics:b1", "kind": "multiple-choice", "subject": "macroeconomics", "category": "Social Sciences", "question": "「通貨膨脹」通常是指下列何種現象？", "choices": { "A": "物價水準持續上漲", "B": "失業率下降", "C": "利率維持不變", "D": "匯率固定" }, "answer": "A" },
+    { "id": "tmmluplus:business_management:b1", "kind": "multiple-choice", "subject": "business_management", "category": "Social Sciences", "question": "SWOT 分析中的「S」代表什麼？", "choices": { "A": "Strengths(優勢)", "B": "Sales(銷售)", "C": "Strategy(策略)", "D": "Service(服務)" }, "answer": "A" },
+    { "id": "tmmluplus:accounting:b1", "kind": "multiple-choice", "subject": "accounting", "category": "Social Sciences", "question": "會計恆等式為：資產 = 負債 + ？", "choices": { "A": "收入", "B": "股東權益", "C": "費用", "D": "現金" }, "answer": "B" },
+    { "id": "tmmluplus:politic_science:b1", "kind": "multiple-choice", "subject": "politic_science", "category": "Social Sciences", "question": "我國中央政府設有五院，下列何者為其中之一？", "choices": { "A": "行政院", "B": "國家院", "C": "人民院", "D": "議政院" }, "answer": "A" },
+    { "id": "tmmluplus:geography_of_taiwan:b1", "kind": "multiple-choice", "subject": "geography_of_taiwan", "category": "Social Sciences", "question": "台灣最長的河川是哪一條？", "choices": { "A": "濁水溪", "B": "高屏溪", "C": "淡水河", "D": "大甲溪" }, "answer": "A" },
+    { "id": "tmmluplus:finance_banking:b1", "kind": "multiple-choice", "subject": "finance_banking", "category": "Social Sciences", "question": "中央銀行調高政策利率，最主要的目的通常是？", "choices": { "A": "抑制通貨膨脹", "B": "增加失業率", "C": "降低稅收", "D": "擴大財政赤字" }, "answer": "A" },
+    { "id": "tmmluplus:logic_reasoning:b1", "kind": "multiple-choice", "subject": "logic_reasoning", "category": "Other", "question": "若「所有 A 都是 B」且「x 是 A」，則下列何者必為真？", "choices": { "A": "x 是 B", "B": "x 不是 B", "C": "無法判斷", "D": "x 是 C" }, "answer": "A" },
+    { "id": "tmmluplus:culinary_skills:b1", "kind": "multiple-choice", "subject": "culinary_skills", "category": "Other", "question": "製作蛋白霜(meringue)時主要打發的是？", "choices": { "A": "蛋白", "B": "蛋黃", "C": "全蛋", "D": "鮮奶油" }, "answer": "A" },
+    { "id": "tmmluplus:official_document_management:b1", "kind": "multiple-choice", "subject": "official_document_management", "category": "Other", "question": "公文文別中的「函」主要用於下列何種情況？", "choices": { "A": "機關間或對人民的往來行文", "B": "法律條文公布", "C": "個人日記", "D": "商業廣告文宣" }, "answer": "A" },
+    { "id": "tmmluplus:technical:b1", "kind": "multiple-choice", "subject": "technical", "category": "Other", "question": "三相交流電源的相數為何？", "choices": { "A": "1", "B": "2", "C": "3", "D": "4" }, "answer": "C" },
+    { "id": "tmmluplus:agriculture:b1", "kind": "multiple-choice", "subject": "agriculture", "category": "Other", "question": "水稻最主要的栽培環境為何？", "choices": { "A": "水田", "B": "沙漠", "C": "深海", "D": "高山裸岩地" }, "answer": "A" },
+    { "id": "tmmluplus:logic_reasoning:b2", "kind": "multiple-choice", "subject": "logic_reasoning", "category": "Other", "question": "數列 2, 4, 8, 16 的下一個數最可能是？", "choices": { "A": "24", "B": "32", "C": "20", "D": "18" }, "answer": "B" }
+  ]
+}

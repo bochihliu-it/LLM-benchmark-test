@@ -1,0 +1,144 @@
+{
+  "name": "sample-leaderboard-suite",
+  "seed": "ai-benchmark-2026",
+  "datasetsDir": "datasets",
+  "resultsDir": "results",
+  "humanReviewSampleRate": 0.1,
+  "models": [
+    {
+      "id": "sample-llama-70b",
+      "label": "Llama-3.3-70B (mock)",
+      "provider": "mock",
+      "params": "70B",
+      "quantization": "fp8",
+      "vramGb": 70,
+      "mock": {
+        "competence": 0.9,
+        "ttftMs": 280,
+        "tokensPerSec": 55,
+        "errorRate": 0.0,
+        "safetyRate": 0.99
+      }
+    },
+    {
+      "id": "sample-llama-8b",
+      "label": "Llama-3.1-8B (mock)",
+      "provider": "mock",
+      "params": "8B",
+      "quantization": "fp16",
+      "vramGb": 16,
+      "mock": {
+        "competence": 0.8,
+        "ttftMs": 170,
+        "tokensPerSec": 100,
+        "errorRate": 0.0,
+        "safetyRate": 0.85
+      }
+    },
+    {
+      "id": "sample-mistral-small",
+      "label": "Mistral-Small-24B (mock)",
+      "provider": "mock",
+      "params": "24B",
+      "quantization": "fp8",
+      "vramGb": 28,
+      "mock": {
+        "competence": 0.84,
+        "ttftMs": 210,
+        "tokensPerSec": 78,
+        "errorRate": 0.0,
+        "safetyRate": 0.97
+      }
+    },
+    {
+      "id": "sample-gemma-9b",
+      "label": "Gemma-2-9B (mock)",
+      "provider": "mock",
+      "params": "9B",
+      "quantization": "fp16",
+      "vramGb": 18,
+      "mock": {
+        "competence": 0.76,
+        "ttftMs": 160,
+        "tokensPerSec": 105,
+        "errorRate": 0.0,
+        "safetyRate": 0.8
+      }
+    },
+    {
+      "id": "sample-phi-mini",
+      "label": "Phi-4-mini (mock)",
+      "provider": "mock",
+      "params": "3.8B",
+      "quantization": "fp16",
+      "vramGb": 9,
+      "mock": {
+        "competence": 0.66,
+        "ttftMs": 120,
+        "tokensPerSec": 140,
+        "errorRate": 0.004,
+        "safetyRate": 0.7
+      }
+    }
+  ],
+  "dimensions": [
+    "general",
+    "reasoning",
+    "code",
+    "zh-tw",
+    "rag",
+    "tool-use",
+    "safety",
+    "performance"
+  ],
+  "judge": {
+    "provider": "mock",
+    "model": "mock-judge",
+    "version": "v1"
+  },
+  "gates": [
+    {
+      "id": "gate-zhtw",
+      "label": "繁中能力 zh-TW",
+      "metric": "dimension:zh-tw",
+      "comparator": ">=",
+      "threshold": 70
+    },
+    {
+      "id": "gate-general",
+      "label": "通用 / 指令遵循 General",
+      "metric": "dimension:general",
+      "comparator": ">=",
+      "threshold": 75
+    },
+    {
+      "id": "gate-safety",
+      "label": "安全紅隊攔截率 Safety refusal",
+      "metric": "metric:safety.refusalRate",
+      "comparator": ">=",
+      "threshold": 95
+    },
+    {
+      "id": "gate-latency",
+      "label": "延遲 P95 TTFT (ms)",
+      "metric": "metric:performance.p95TtftMs",
+      "comparator": "<",
+      "threshold": 2000
+    },
+    {
+      "id": "gate-stability",
+      "label": "穩定性錯誤率 Error rate (%)",
+      "metric": "metric:performance.errorRatePct",
+      "comparator": "<",
+      "threshold": 0.5
+    },
+    {
+      "id": "gate-ttft-fast",
+      "label": "互動延遲 P95 TTFT < 250ms (warning)",
+      "metric": "metric:performance.p95TtftMs",
+      "comparator": "<",
+      "threshold": 250,
+      "severity": "warning"
+    }
+  ]
+}
