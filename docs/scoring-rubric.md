@@ -16,6 +16,12 @@
 
 以 Chen et al. (2021) 無偏估計式 `passAtK(n, c, k)` 計算。目前每題抽樣 n=1，故 pass@1 等於通過率；若日後提高抽樣數，欄位語意不變。
 
+### 繁中分類別子分數（zh-tw）
+
+`zh-tw` 並存企業情境集與 TMMLU+。帶 `category` 的題目（TMMLU+）會額外彙整各類別正確率：`stemPct`、`humanitiesPct`、`socialSciPct`、`otherPct`，作為「模型在哪一類繁中知識較弱」的診斷。維度總分仍是全部題目的平均正確率。
+
+> 採 **0-shot 生成式**評分（走閘道），與 TMMLU+ 官方 5-shot loglikelihood **不可直接比較**，視為內部相對指標。資料導入見 `docs/adr/0003-*` 與 `scripts/ingest-tmmluplus.ts`。
+
 ## 2. LLM 裁判（judge）
 
 用於 `rag`（faithfulness）等開放式生成。裁判依下列 rubric，**每條準則給 0–`maxPerCriterion`（預設 5）分**，維度分數 = 總得分 ÷ 滿分 × 100。

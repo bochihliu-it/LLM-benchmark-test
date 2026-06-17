@@ -137,9 +137,9 @@ async function main(): Promise<void> {
     case 'list': {
       console.log('Available dimensions:\n');
       for (const id of Object.keys(RUNNERS) as DimensionId[]) {
-        console.log(
-          `  ${id.padEnd(12)} method=${RUNNERS[id].method.padEnd(12)} dataset=${DATASET_FILES[id]}`,
-        );
+        const files = DATASET_FILES[id];
+        const shown = Array.isArray(files) ? files.join(', ') : files;
+        console.log(`  ${id.padEnd(12)} method=${RUNNERS[id].method.padEnd(12)} dataset=${shown}`);
       }
       console.log('\nDecision groups: capability, application, reliability-safety, performance-cost');
       return;

@@ -5,6 +5,7 @@
  */
 import type {
   CaseResult,
+  Category,
   Dataset,
   DimensionId,
   DimensionResult,
@@ -14,6 +15,33 @@ import { mean } from '../../src/domain/scoring.ts';
 import { extractChoiceLetter } from '../../src/shared/parse.ts';
 import { mapWithConcurrency } from '../../src/shared/async.ts';
 import { buildResult, type RunContext } from './runner.ts';
+
+const CATEGORY_METRIC_KEY: Record<Category, string> = {
+  STEM: 'stemPct',
+  Humanities: 'humanitiesPct',
+  'Social Sciences': 'socialSciPct',
+  Other: 'otherPct',
+};
+
+/** Per-category accuracy (0–100) for cases that carry a category tag. */
+export function categoryBreakdown(
+  cases: MultipleChoiceCase[],
+  scores: number[],
+): Record<string, number> {
+  const acc: Record<string, { sum: number; n: number }> = {};
+  cases.forEach((c, i) => {
+    if (!c.category) return;
+    const key = CATEGORY_METRIC_KEY[c.category];
+    (acc[key] ??= { sum: 0, n: 0 });
+    acc[key]!.sum += scores[i] ?? 0;
+    acc[key]!.n += 1;
+  });
+  const out: Record<string, number> = {};
+  for (const [key, v] of Object.entries(acc)) {
+    out[key] = Math.round((v.sum / v.n) * 1000) / 10;
+  }
+  return out;
+}
 
 export async function evaluateMultipleChoice(
   dimensionId: DimensionId,
@@ -49,14 +77,18 @@ export async function evaluateMultipleChoice(
     };
   });
 
-  const accuracy = mean(results.map((r) => r.score));
+  const scores = results.map((r) => r.score);
+  const accuracy = mean(scores);
   return buildResult({
     dimensionId,
     group: ctx.groupFor(dimensionId),
     method: 'objective',
     rawScore: accuracy * 100,
     cases: results,
-    metrics: { accuracyPct: Math.round(accuracy * 1000) / 10 },
+    metrics: {
+      accuracyPct: Math.round(accuracy * 1000) / 10,
+      ...categoryBreakdown(cases, scores),
+    },
     dataset,
   });
 }

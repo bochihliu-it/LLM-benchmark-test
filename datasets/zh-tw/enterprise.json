@@ -1,6 +1,6 @@
 {
   "dimension": "zh-tw",
-  "version": "zhtw-v1",
+  "version": "zhtw-enterprise-v1",
   "cases": [
     { "id": "zh-001", "kind": "multiple-choice", "question": "「請幫我把這封郵件潤飾得更正式」屬於企業中哪一類常見任務？", "choices": { "A": "程式除錯", "B": "公文與郵件撰寫", "C": "影像辨識", "D": "語音合成" }, "answer": "B" },
     { "id": "zh-002", "kind": "multiple-choice", "question": "下列何者為台灣最大的半導體製造公司？", "choices": { "A": "鴻海", "B": "台積電", "C": "聯發科", "D": "中華電信" }, "answer": "B" },

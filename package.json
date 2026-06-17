@@ -21,6 +21,7 @@
     "benchmark:suite": "tsx src/cli/index.ts run --config pipeline/configs/sample-suite.json",
     "benchmark:validate": "tsx src/cli/index.ts validate --config pipeline/configs/sample-model.json",
     "benchmark:list": "tsx src/cli/index.ts list",
+    "ingest:tmmluplus": "tsx scripts/ingest-tmmluplus.ts",
     "report": "tsx src/cli/index.ts report --results results --out reports"
   },
   "pnpm": {

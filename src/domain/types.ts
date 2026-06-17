@@ -104,6 +104,11 @@ export interface ModelClient {
 
 // --- Datasets -----------------------------------------------------------------
 
+/** Subject grouping used for per-category breakdowns (TMMLU+ taxonomy). */
+export type Category = 'STEM' | 'Humanities' | 'Social Sciences' | 'Other';
+
+export const CATEGORIES: Category[] = ['STEM', 'Humanities', 'Social Sciences', 'Other'];
+
 /** A multiple-choice case with exactly one correct option (objective). */
 export interface MultipleChoiceCase {
   id: string;
@@ -111,6 +116,10 @@ export interface MultipleChoiceCase {
   question: string;
   choices: Record<string, string>; // { A: "...", B: "..." }
   answer: string; // key into choices
+  /** Optional subject grouping (e.g. TMMLU+ category), enables sub-scores. */
+  category?: Category;
+  /** Optional fine-grained subject label (e.g. TMMLU+ "computer_science"). */
+  subject?: string;
 }
 
 /** A numeric short-answer case scored by exact match after extraction. */

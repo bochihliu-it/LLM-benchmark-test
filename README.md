@@ -160,6 +160,31 @@ benchmark report   [--results <dir>] [--out <dir>]
 
 ---
 
+## 繁中能力與 TMMLU+
+
+`zh-tw` 維度**並存兩個來源**，cases 自動串接：
+
+- `datasets/zh-tw/enterprise.json` — 自建企業情境繁中題（郵件、RAG、在地業務）。
+- `datasets/zh-tw/tmmluplus.json` — 公開的 [TMMLU+](https://huggingface.co/datasets/ikala/tmmluplus)（iKala，**MIT**，66 科目）分層抽樣。
+
+每題可帶 `category`（STEM／Humanities／Social Sciences／Other），報告會輸出**分類別子分數**（`stemPct`/`humanitiesPct`/`socialSciPct`/`otherPct`），讓你看出模型在哪一類繁中知識較弱。維持 **0-shot 生成式**評分（走 LiteLLM）。
+
+### 取得真實 TMMLU+ 資料（~200 題分層抽樣）
+
+repo 內附的是**明確標示的 bootstrap 佔位樣本**；要換成真實資料，在**可連 huggingface.co** 的環境執行：
+
+```bash
+pnpm ingest:tmmluplus                         # 抓 HF，分層抽 ~200 題寫入 tmmluplus.json
+pnpm ingest:tmmluplus --total 200 --seed ai-benchmark-2026
+pnpm ingest:tmmluplus --from ./tmmluplus/data # 離線：先 git clone 後讀本地 CSV
+```
+
+> 本評測沙箱預設未把 huggingface.co 列入網路 egress allowlist，故無法在此直接抓取；腳本被擋時會給明確訊息。
+>
+> **可比性注意**：0-shot 生成式分數與 TMMLU+ 官方 5-shot loglikelihood 排行榜**不可直接比較**，本專案視為「內部相對指標」。
+
+---
+
 ## 設定檔（pipeline/configs/）
 
 | 檔案 | 用途 |
@@ -185,7 +210,7 @@ benchmark report   [--results <dir>] [--out <dir>]
 ├── pipeline/
 │   ├── configs/          # 模型 / 任務設定
 │   └── runners/          # 各維度評測執行器（共用 DimensionRunner 介面）
-├── datasets/             # 自建測試集 v1：8 維度各 ~30 題（共 240 題）
+├── datasets/             # 測試集：8 維度。zh-tw = enterprise.json（企業情境）+ tmmluplus.json（TMMLU+）
 │   │                     #   general / reasoning / code / zh-tw / rag / tool-use / redteam / performance
 ├── perf/                 # k6 / vllm-bench 負載測試腳本
 ├── docs/                 # 評分準則、SOP、ADR

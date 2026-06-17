@@ -23,6 +23,6 @@
     "rootDir": ".",
     "types": ["node"]
   },
-  "include": ["src", "pipeline/runners", "tests", "vitest.config.ts"],
+  "include": ["src", "pipeline/runners", "scripts", "tests", "vitest.config.ts"],
   "exclude": ["node_modules", "dist", "results", "reports"]
 }
